@@ -1,14 +1,9 @@
-import { Button, IconButton } from "@chakra-ui/button";
-import { useDisclosure } from "@chakra-ui/hooks";
-import { HamburgerIcon } from "@chakra-ui/icons";
-import { Box, Flex, Heading, Link } from "@chakra-ui/layout";
-import {
-  Drawer,
-  DrawerBody,
-  DrawerContent,
-  DrawerOverlay,
-} from "@chakra-ui/modal";
 import React, { memo, VFC } from "react";
+import { useDisclosure } from "@chakra-ui/hooks";
+import { Box, Flex, Heading, Link } from "@chakra-ui/layout";
+
+import { MenuIconButton } from "../../atoms/button/MenuIconButton";
+import { MenuDrawer } from "../../molecules/MenuDrawer";
 
 export const Header: VFC = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -44,29 +39,12 @@ export const Header: VFC = memo(() => {
           <Link>設定</Link>
         </Flex>
 
-        {/* hamburger Icon */}
-        <IconButton
-          aria-label="メニューボタン"
-          icon={<HamburgerIcon />}
-          size="sm"
-          variant="unstyled"
-          display={{ base: "block", md: "none" }}
-          onClick={onOpen}
-        />
+        {/* hamburger icon */}
+        <MenuIconButton onOpen={onOpen} />
       </Flex>
 
       {/* drawer */}
-      <Drawer placement="left" size="xs" onClose={onClose} isOpen={isOpen}>
-        <DrawerOverlay>
-          <DrawerContent>
-            <DrawerBody p={0} bg="gray.100">
-              <Button w="100%">TOP</Button>
-              <Button w="100%">ユーザー一覧</Button>
-              <Button w="100%">設定</Button>
-            </DrawerBody>
-          </DrawerContent>
-        </DrawerOverlay>
-      </Drawer>
+      <MenuDrawer isOpen={isOpen} onClose={onClose} />
     </>
   );
 });
