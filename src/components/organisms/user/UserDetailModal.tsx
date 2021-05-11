@@ -10,15 +10,16 @@ import {
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Stack } from "@chakra-ui/layout";
 import { Input } from "@chakra-ui/input";
+import { User } from "../../../types/api/user";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+  user: User | null;
 };
 
 export const UserDetailModal: VFC<Props> = memo((props) => {
-  const { isOpen, onClose } = props;
-  // const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onClose, user } = props;
 
   return (
     <Modal
@@ -35,22 +36,22 @@ export const UserDetailModal: VFC<Props> = memo((props) => {
           <Stack spacing={4}>
             <FormControl>
               <FormLabel>名前</FormLabel>
-              <Input value="rt" isReadOnly />
+              <Input value={user?.username ?? ""} isReadOnly />
             </FormControl>
 
             <FormControl>
               <FormLabel>フルネーム</FormLabel>
-              <Input value="ryutaro tanaka" isReadOnly />
+              <Input value={user?.name ?? ""} isReadOnly />
             </FormControl>
 
             <FormControl>
               <FormLabel>メールアドレス</FormLabel>
-              <Input value="dummy@example.com" isReadOnly />
+              <Input value={user?.email} isReadOnly />
             </FormControl>
 
             <FormControl>
               <FormLabel>電話番号</FormLabel>
-              <Input value="090-1111-2222" isReadOnly />
+              <Input value={user?.phone} isReadOnly />
             </FormControl>
           </Stack>
         </ModalBody>

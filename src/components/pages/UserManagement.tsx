@@ -6,14 +6,18 @@ import { useAllUsers } from "../../hooks/useAllUsers";
 import { Spinner } from "@chakra-ui/spinner";
 import { UserDetailModal } from "../organisms/user/UserDetailModal";
 import { useDisclosure } from "@chakra-ui/hooks";
+import { useSelectUser } from "../../hooks/useSelectUser";
 
 export const UserManagement: VFC = memo(() => {
   const { getUsers, users, loading } = useAllUsers();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { onSelectUser, selectedUser } = useSelectUser();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => getUsers(), []);
-  const onClickUser = useCallback(() => onOpen(), [onOpen]);
+  useEffect(() => getUsers(), [getUsers]);
+  const onClickUser = useCallback(
+    (id: number) => onSelectUser({ users, id, onOpen }),
+    [onOpen, onSelectUser, users]
+  );
 
   return (
     <>
@@ -26,16 +30,17 @@ export const UserManagement: VFC = memo(() => {
           {users.map((user) => (
             <WrapItem key={user.id}>
               <UserCard
+                id={user.id}
                 imageUrl="https://source.unsplash.com/photos/random"
                 userName={user.username}
                 fullName={user.name}
-                onClick={onClickUser}
+                onClick={() => onClickUser(user.id)}
               />
             </WrapItem>
           ))}
         </Wrap>
       )}
-      <UserDetailModal isOpen={isOpen} onClose={onClose} />
+      <UserDetailModal isOpen={isOpen} onClose={onClose} user={selectedUser} />
     </>
   );
 });
