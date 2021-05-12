@@ -24,7 +24,10 @@ export const useAuth = () => {
               status: "success",
               title: "ログインしました",
             });
-            setLoginUser(res.data);
+
+            const isAdmin = res.data.id === 10 ? true : false;
+            setLoginUser({ ...res.data, isAdmin });
+
             history.push("/home");
           } else {
             showMessage({
