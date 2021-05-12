@@ -7,11 +7,14 @@ import { Spinner } from "@chakra-ui/spinner";
 import { UserDetailModal } from "../organisms/user/UserDetailModal";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { useSelectUser } from "../../hooks/useSelectUser";
+import { useLoginUser } from "../../hooks/useLoginUser";
 
 export const UserManagement: VFC = memo(() => {
   const { getUsers, users, loading } = useAllUsers();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { onSelectUser, selectedUser } = useSelectUser();
+  const { loginUser } = useLoginUser();
+  console.log(loginUser);
 
   useEffect(() => getUsers(), [getUsers]);
   const onClickUser = useCallback(
